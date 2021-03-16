@@ -1,21 +1,21 @@
 <?php 
 
 class Product {
-    private $product_id;
-    private $category;
+    protected $product_id;
+    protected $category;
     protected $price;
     protected $quantity_in_store;
     protected $expedition_time;
-    private $prime_available;
+    protected $prime_available;
     protected $description;
     protected $reviews = []; // not in construct
     protected $tags = [];
-    private $weight;
+    protected $weight;
     protected $weight_delivery;
     protected $dimensions_delivery;
 
     public function __construct(int $product_id, string $category, float $price, int $quantity_in_store, int $expedition_time, bool $prime_available, string $description, array $tags, float $weight, float $weight_delivery, $dimensions_delivery)
-    {
+    {   
         $this->product_id = $product_id;
         $this->category = $category;
         $this->price = $price;
@@ -108,15 +108,6 @@ class Product {
         $this->tags[] = $newtags;
     }
 
-    // tags
-    public function get_tags() {
-        return $this->tags;
-    }
-
-    public function set_tags($newtags) {
-        $this->tags[] = $newtags;
-    }
-
     // weight
     public function get_weight() {
         return $this->weight;
@@ -147,11 +138,12 @@ class Product {
 }   
 
 class Tech extends Product {
-    private int $height;
-    private int $width;
-    private int $length;
-    private int $weight;
-    private string $subCategory;
+    protected int $height;
+    protected int $width;
+    protected int $length;
+    protected string $subCategory;
+
+// ?? constuctor
 
     // height
     public function get_height() {
@@ -180,15 +172,6 @@ class Tech extends Product {
         $this->length = $newlength;
     }
 
-    // weight
-    public function get_weight() {
-        return $this->weight;
-    }
-
-    public function set_weight($newweight) {
-        $this->weight = $newweight;
-    }
-
     // subCategory
     public function get_subCategory() {
         return $this->subCategory;
@@ -201,8 +184,8 @@ class Tech extends Product {
 }
 
 class Food {
-    private $expiration_date;
-    private $genre;
+    protected $expiration_date;
+    protected $genre;
 
     // expiration_date
     public function get_expiration_date() {
@@ -224,15 +207,15 @@ class Food {
 }
 
 class User {
-    private int $id;
-    private string $name;
-    private string $surname;
-    private int $age;
+    protected int $id;
+    protected string $name;
+    protected string $surname;
+    protected int $age;
     private $username;
     private $password;
-    private $email;
-    private $address;
-    protected $cart = [];
+    protected $email;
+    protected $address;
+    protected array $cart = [];
     protected $payment_methods = [];
 
     public function __construct($id, $name, $surname, $age, $username, $password, $email, $address)
@@ -320,7 +303,7 @@ class User {
         return $this->cart;
     }
 
-    public function set_cart($newItem) {
+    public function add_cart($newItem) {
         $this->cart[] = $newItem;
     }
 
@@ -353,3 +336,19 @@ class PrimeUser extends User {
     }
 
 }
+
+// class PaymentMethod
+
+//utente 1 acquista tech 1, tech 1 viene aggiunto a cart utente 1;
+$tech1 = new Tech(9999, "music", 15, 1, 5, true, "lettore mp3", ["mp3", "lettore"], 1, 1.5, "pacco_piccolo");
+$user1 = new PrimeUser(99999, "nome", "cognome", 99999, "nomeUtente", "fjojfeo", "fake@email.com", "jfoiefjioejofe");
+
+$user1->add_cart($tech1);
+
+echo '<pre>'.var_export($user1->get_cart(), true).'</pre>';
+// var_dump($user1);
+
+
+
+
+
